@@ -27,6 +27,10 @@ var ee = new EventEmitter();
 
   function loged(){
   	console.log('logged by user', arguments[0])
+  	window.sessionVK = arguments[0];
+  	VK.Api.call('groups.get', {user_id: 270637318}, function(res){
+  		console.log('groups', res);
+  	})
   }
   ee.addListener('loged', loged);
 
@@ -38,7 +42,7 @@ var ee = new EventEmitter();
   	VK.Auth.login(function(){
   		alert('callback');
   		console.log('arguments', arguments);
-  		ee.emitEvent('loged', arguments[0]['session']['user']);
+  		ee.emitEvent('loged', arguments[0]);
   	})
   }
 
