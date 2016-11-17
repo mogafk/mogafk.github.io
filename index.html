@@ -5,11 +5,13 @@
 <body>
 <a id="get_access_token" href="https://oauth.vk.com/authorize?client_id=5218438&display=page&redirect_uri=https://mogafk.github.io/&scope=groups&response_type=token&v=5.60">Test relocation</a>
 <br>
+<a href="https://oauth.vk.com/authorize?client_id=5218438&groups_ids=1&display=page&redirect_uri=https://mogafk.github.io/&scope=messages&response_type=token&v=5.60">relocation login as group admin</a>
+<br>
 <a id="login_open_api" href="#">Test open api</a>
 <br>
 <a id="logout_open_api" href="#">logout open api</a>
 <br>
-<a href="get_groups">get groups</a>
+<a href="#">#</a>
 
 
 <script type="text/javascript">
@@ -25,10 +27,14 @@
 <script type="text/javascript">
 var ee = new EventEmitter();
 
-  function loged(){
+  function loged(){// есть нативные события логина, возможно стоит использовать иначе
   	console.log('logged by user', arguments[0])
   	window.sessionVK = arguments[0];
-  	VK.Api.call('groups.get', {user_id: 270637318}, function(res){
+  	VK.Api.call('groups.get', {
+  		user_id: 270637318,
+  		filter: 'admin',
+  		expanded: 1
+  	}, function(res){
   		console.log('groups', res);
   	})
   }
@@ -38,12 +44,16 @@ var ee = new EventEmitter();
     apiId: 5218438
   });
 
+  VK.Observer.subscribe(function(){
+  	console.log('обработчик auth.login ', arguments)
+  }, 'auth.login')
+
   document.getElementById("login_open_api").onclick = function(){
   	VK.Auth.login(function(){
   		alert('callback');
   		console.log('arguments', arguments);
   		ee.emitEvent('loged', arguments[0]);
-  	})
+  	}, (4096+262144+524288))
   }
 
   document.getElementById("logout_open_api").onclick = function(){
