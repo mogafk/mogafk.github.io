@@ -1,1 +1,23 @@
-HELLO WORLD
+<html>
+<head>
+	<title>Просто тестирую github pages</title>
+</head>
+<body>
+<a href="https://oauth.vk.com/authorize?client_id=5218438&display=page&redirect_uri=https://mogafk.github.io/&scope=group&response_type=token&v=5.60">Test relocation</a>
+<br>
+<a id="open_api" href="#">Test open api</a>
+<script src="https://vk.com/js/api/openapi.js?136" type="text/javascript"></script>
+<script type="text/javascript">
+  VK.init({
+    apiId: 5218438
+  });
+
+  document.getElementById("open_api").onclick = function(){
+  	VK.Auth.login(function(){
+  		alert('callback');
+  		console.log('arguments', arguments)
+  	})
+  }
+</script>
+</body>
+</html>
